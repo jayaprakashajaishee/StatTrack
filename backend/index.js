@@ -1,6 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const port = process.env.PORT;
+
+//log route middleware
 app.use((req, res, next) => {
   const now = new Date();
   console.log(
@@ -10,9 +13,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
-const port = process.env.PORT;
-console.log(port);
 
 app.use(express.json());
 
