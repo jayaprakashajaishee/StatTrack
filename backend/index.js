@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const userRouter = require("./routes/userRouter");
 const app = express();
 
 const port = process.env.PORT;
@@ -16,6 +17,8 @@ database.on("error", (error) => {
 database.once("connected", () => {
   console.log("Database Connected");
 });
+
+app.use("/user", userRouter);
 
 //log route middleware
 app.use((req, res, next) => {
