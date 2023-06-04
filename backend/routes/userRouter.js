@@ -1,5 +1,6 @@
 const express = require("express");
 const userModel = require("../model/userModel");
+const jwt = require("jsonwebtoken");
 
 const userRouter = express.Router();
 
@@ -14,8 +15,15 @@ userRouter.post("/register", async (req, res) => {
     created: new Date(),
   });
   try {
-    const dataToSave = await newUser.save();
-    res.status(200).json(dataToSave);
+    const _newUser = await newUser.save();
+    const userCreds = {
+      userName: req.body.userName,
+      password: req.body.password,
+    };
+    const accessToken = jwt.sign(userCreds, process.env.ACCESS_TOKEN_SECRET);
+    res
+      .status(200)
+      .json({ _newUser, status: 200, message: "REGISTERED", accessToken });
   } catch (error) {
     console.log(error);
     res
@@ -27,14 +35,16 @@ userRouter.post("/register", async (req, res) => {
 //GET => User Login
 userRouter.get("/login", async (req, res) => {
   try {
-    const user = await userModel.findOne({
+    const userCreds = {
       userName: req.body.userName,
       password: req.body.password,
-    });
-    if (user) {
-      res.json({ status: 200, code: "AUTHORIZED" }).status(200);
+    };
+    const user = await userModel.findOne(userCreds);
+    if (user !== null) {
+      const accessToken = jwt.sign(userCreds, process.env.ACCESS_TOKEN_SECRET);
+      res.json({ status: 200, accessToken, code: "AUTHORIZED" }).status(200);
     } else {
-      throw new Error("USER-NOT-FOUND");
+      res.json({ status: 400, code: "UN_AUTHORIZED" }).status(200);
     }
   } catch (error) {
     console.log(error);
