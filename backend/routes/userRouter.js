@@ -3,7 +3,7 @@ const userModel = require("../model/userModel");
 
 const userRouter = express.Router();
 
-//Post Method
+//POST => User Register
 userRouter.post("/register", async (req, res) => {
   const newUser = new userModel({
     name: req.body.name,
@@ -24,9 +24,24 @@ userRouter.post("/register", async (req, res) => {
   }
 });
 
-//Get all Method
-userRouter.get("/login", (req, res) => {
-  res.send("Get All API").status(200);
+//GET => User Login
+userRouter.get("/login", async (req, res) => {
+  try {
+    const user = await userModel.findOne({
+      userName: req.body.userName,
+      password: req.body.password,
+    });
+    if (user) {
+      res.json({ status: 200, code: "AUTHORIZED" }).status(200);
+    } else {
+      throw new Error("USER-NOT-FOUND");
+    }
+  } catch (error) {
+    console.log(error);
+    res
+      .json({ status: 400, message: error.message, code: "UN-AUTHORIZED" })
+      .status(400);
+  }
 });
 
 module.exports = userRouter;

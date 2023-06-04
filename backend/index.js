@@ -10,6 +10,8 @@ const mongooseURI = process.env.MONGO_URI;
 mongoose.connect(mongooseURI);
 const database = mongoose.connection;
 
+app.use(express.json());
+
 database.on("error", (error) => {
   console.log(error);
 });
@@ -28,8 +30,6 @@ app.use((req, res, next) => {
   );
   next();
 });
-
-app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("server running - statTrack");
