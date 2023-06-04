@@ -18,8 +18,6 @@ database.once("connected", () => {
   console.log("Database Connected");
 });
 
-app.use("/user", userRouter);
-
 //log route middleware
 app.use((req, res, next) => {
   const now = new Date();
@@ -36,6 +34,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("server running - statTrack");
 });
+
+app.use("/user", userRouter);
 
 app.listen(4321, () =>
   console.log(`App listening to http://localhost:${port}`)
