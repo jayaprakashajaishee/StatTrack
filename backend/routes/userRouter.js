@@ -1,6 +1,7 @@
 const express = require("express");
 const userModel = require("../model/userModel");
 const jwt = require("jsonwebtoken");
+const authenticate = require("../middleware/authenticate");
 
 const userRouter = express.Router();
 
@@ -52,6 +53,10 @@ userRouter.get("/login", async (req, res) => {
       .json({ status: 400, message: error.message, code: "UN-AUTHORIZED" })
       .status(400);
   }
+});
+
+userRouter.get("/test", authenticate, (req, res) => {
+  res.status(200).json({ status: 200, message: "test route" });
 });
 
 module.exports = userRouter;
