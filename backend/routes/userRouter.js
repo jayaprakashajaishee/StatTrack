@@ -34,8 +34,9 @@ userRouter.post("/register", async (req, res) => {
 });
 
 //GET => User Login
-userRouter.get("/login", async (req, res) => {
+userRouter.post("/login", async (req, res) => {
   try {
+    console.log("req", req.body);
     const userCreds = {
       userName: req.body.userName,
       password: req.body.password,
@@ -45,7 +46,7 @@ userRouter.get("/login", async (req, res) => {
       const accessToken = jwt.sign(userCreds, process.env.ACCESS_TOKEN_SECRET);
       res.json({ status: 200, accessToken, code: "AUTHORIZED" }).status(200);
     } else {
-      res.json({ status: 400, code: "UN_AUTHORIZED" }).status(400);
+      res.sendStatus(401);
     }
   } catch (error) {
     console.log(error);
