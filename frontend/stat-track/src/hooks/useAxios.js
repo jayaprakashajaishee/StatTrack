@@ -4,7 +4,7 @@ import axios from "axios";
 function useAxios() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState();
-  const [error, setError] = useState();
+  const [error, setError] = useState({ message: "", error: false });
 
   const apiCall = (config) => {
     setLoading(true);
@@ -13,8 +13,8 @@ function useAxios() {
         setData(res);
         setLoading(false);
       })
-      .catch((error) => {
-        setError(error);
+      .catch((e) => {
+        setError({ message: e.message, error: true });
         setLoading(false);
       });
   };

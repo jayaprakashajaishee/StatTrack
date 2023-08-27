@@ -41,10 +41,6 @@ function Login() {
     return <div>loading</div>;
   }
 
-  if (error) {
-    return <div>error</div>;
-  }
-
   if (data) {
     return <div>logged in</div>;
   }
@@ -82,6 +78,7 @@ function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              error={error.error}
             />
             <TextField
               margin="normal"
@@ -92,6 +89,7 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={error.error}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
