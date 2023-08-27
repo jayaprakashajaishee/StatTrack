@@ -13,10 +13,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import useAxios from "../../hooks/useAxios";
 
 const defaultTheme = createTheme();
 
 function Login() {
+  const [loading, data, error, login] = useAxios();
   const handleSubmit = (event) => {
     event.preventDefault();
     const _data = new FormData(event.currentTarget);
@@ -34,15 +36,20 @@ function Login() {
       data: data,
     };
     console.log("config", config);
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        console.log("error");
-        console.log(error);
-      });
+    login(config);
   };
+
+  if (loading) {
+    return <div>loading</div>;
+  }
+
+  if (error) {
+    return <div>error</div>;
+  }
+
+  if (data) {
+    return <div>logged in</div>;
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
