@@ -12,7 +12,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import useAxios from "../../hooks/useAxios";
 
 const defaultTheme = createTheme();
@@ -26,7 +25,6 @@ function Login() {
       userName: _data.get("email"),
       password: _data.get("password"),
     });
-    console.log("data", data);
     var config = {
       method: "post",
       url: "http://localhost:4321/user/login",
