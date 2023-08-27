@@ -45,7 +45,7 @@ userRouter.get("/login", async (req, res) => {
       const accessToken = jwt.sign(userCreds, process.env.ACCESS_TOKEN_SECRET);
       res.json({ status: 200, accessToken, code: "AUTHORIZED" }).status(200);
     } else {
-      res.json({ status: 400, code: "UN_AUTHORIZED" }).status(200);
+      res.json({ status: 400, code: "UN_AUTHORIZED" }).status(400);
     }
   } catch (error) {
     console.log(error);
