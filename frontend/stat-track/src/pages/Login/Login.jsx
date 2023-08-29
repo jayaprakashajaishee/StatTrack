@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,11 +13,12 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import useAxios from "../../hooks/useAxios";
+import { AuthContext } from "../../context/AuthProvider";
 
 const defaultTheme = createTheme();
 
 function Login() {
-  const [loading, data, error, login] = useAxios();
+  const { loading, data, error, login } = useContext(AuthContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const _data = new FormData(event.currentTarget);
@@ -25,16 +26,7 @@ function Login() {
       userName: _data.get("email"),
       password: _data.get("password"),
     });
-    var config = {
-      method: "post",
-      url: "http://localhost:4321/user/login",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-    console.log("config", config);
-    login(config);
+    login(data);
   };
 
   if (loading) {
