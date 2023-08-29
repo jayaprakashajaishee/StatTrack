@@ -12,13 +12,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import useAxios from "../../hooks/useAxios";
 import { AuthContext } from "../../context/AuthProvider";
 
 const defaultTheme = createTheme();
 
 function Login() {
-  const { loading, data, error, login } = useContext(AuthContext);
+  const { loading, accessToken, userDetails, error, login } =
+    useContext(AuthContext);
   const handleSubmit = (event) => {
     event.preventDefault();
     const _data = new FormData(event.currentTarget);
@@ -33,8 +33,8 @@ function Login() {
     return <div>loading</div>;
   }
 
-  if (data) {
-    return <div>logged in</div>;
+  if (accessToken && userDetails) {
+    return <div>{`logged in as ${userDetails?.name}`}</div>;
   }
 
   return (

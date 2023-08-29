@@ -3,7 +3,8 @@ import useAxios from "../hooks/useAxios";
 
 const defaultValues = {
   loading: false,
-  data: undefined,
+  accessToken: undefined,
+  userDetails: undefined,
   error: { message: "", error: false },
   login: undefined,
 };
@@ -12,7 +13,6 @@ export const AuthContext = createContext(defaultValues);
 
 function AuthProvider({ children }) {
   const [loading, data, error, onLogin] = useAxios();
-
   const login = (data) => {
     var config = {
       method: "post",
@@ -29,7 +29,8 @@ function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         loading,
-        data,
+        accessToken: data?.data?.accessToken,
+        userDetails: data?.data?.userDetails,
         error,
         login,
       }}

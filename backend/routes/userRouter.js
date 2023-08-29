@@ -44,7 +44,15 @@ userRouter.post("/login", async (req, res) => {
     const user = await userModel.findOne(userCreds);
     if (user !== null) {
       const accessToken = jwt.sign(userCreds, process.env.ACCESS_TOKEN_SECRET);
-      res.json({ status: 200, accessToken, code: "AUTHORIZED" }).status(200);
+      const { name, age, mobileNo, userName } = user;
+      res
+        .json({
+          status: 200,
+          accessToken,
+          code: "AUTHORIZED",
+          userDetails: { name, age, mobileNo, userName },
+        })
+        .status(200);
     } else {
       res.sendStatus(401);
     }
