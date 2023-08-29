@@ -5,39 +5,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { AuthContext } from "../../context/AuthProvider";
-import { Link as LinkTo } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
-function Login() {
-  const { loading, accessToken, userDetails, error, login } =
-    useContext(AuthContext);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const _data = new FormData(event.currentTarget);
-    var data = JSON.stringify({
-      userName: _data.get("email"),
-      password: _data.get("password"),
-    });
-    login(data);
-  };
-
-  if (loading) {
-    return <div>loading</div>;
-  }
-
-  if (accessToken && userDetails) {
-    return <div>{`logged in as ${userDetails?.name}`}</div>;
-  }
-
+function Register() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -58,10 +34,45 @@ function Login() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="name"
+              label="name"
+              name="name"
+              autoComplete="name"
+              autoFocus
+              //   error={error.error}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="age"
+              label="age"
+              name="age"
+              type="number"
+              autoComplete="age"
+              autoFocus
+              //   error={error.error}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="mobileNo"
+              label="mobileNo"
+              name="mobileNo"
+              type="number"
+              autoComplete="mobileNo"
+              autoFocus
+              //   error={error.error}
+            />
             <TextField
               margin="normal"
               required
@@ -71,7 +82,7 @@ function Login() {
               name="email"
               autoComplete="email"
               autoFocus
-              error={error.error}
+              //   error={error.error}
             />
             <TextField
               margin="normal"
@@ -82,7 +93,18 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-              error={error.error}
+              //   error={error.error}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirm password"
+              label="confirm password"
+              type="confirm password"
+              id="confirm password"
+              autoComplete="current-password"
+              //   error={error.error}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -94,22 +116,8 @@ function Login() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Register
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <LinkTo to="/register" style={{ textDecoration: "none" }}>
-                  <Link variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </LinkTo>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
@@ -117,4 +125,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;
